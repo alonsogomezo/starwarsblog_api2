@@ -21,20 +21,18 @@ def handle_hello():
 def get_all_characters():
     all_characters_query = Characters.query.all()
     all_characters = list(map(lambda x: x.serialize(), all_characters_query))
-
     return jsonify(all_characters), 200
 
 @api.route('/planets', methods=['GET'])
 def get_all_planets():
     all_planets_query = Planets.query.all()
     all_planets = list(map(lambda x: x.serialize(), all_planets_query))
-
     return jsonify(all_planets), 200
 
 @api.route('/addfavoriteplanet/<int:id>/', methods=['POST'])
 def add_planet(id):
     planet_query = Planets.query.get(id)
-    favourite_planet = Favorite_Planets(planet_name=planet_query['planet_name'])
+    favourite_planet = Favorite_Planets(planet_name=planet_query.planet_name)
     db.session.add(favourite_planet)
     db.session.commit()
 
@@ -47,7 +45,7 @@ def add_planet(id):
 @api.route('/addfavoritecharacter/<int:id>/', methods=['POST'])
 def add_character(id):
     character_query = Characters.query.get(id)
-    favourite_character = Characters_Favorites(character_name=character_query['character_name'])
+    favourite_character = Characters_Favorites(character_name=character_query.character_name)
     db.session.add(favourite_character)
     db.session.commit()
 
